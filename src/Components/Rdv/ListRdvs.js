@@ -41,7 +41,7 @@ function ListRdvs() {
   const navigate = useNavigate();
 
   const listRdvs = useSelector((state) => state.rdv.data);
-  const patientgeted = useSelector((state) => state.patient.data);
+  const patientgeted = useSelector((state) => state.patient.patient);
 
   useEffect(() => {
     dispatch(getPatientByIdAsync(id));

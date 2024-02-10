@@ -2,26 +2,40 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-export const addOrdonanceAsync = createAsyncThunk("ordonnances/addordonnance", async (data) => {
-  try {
-    const response = await axios.post(
-      "http://localhost:4000/MedicaNet/ordonnance",
-      data
-    );
+import patientSlice, { getPatientByIdAsync } from "../Patient/patientSlice";
 
-    if (response.data) {
-      toast.success("ordonance added Successfully 😊");
-    }
-   
 
-    return response.data;
-  } catch (error) {
+
+
+export const addOrdonanceAsync = createAsyncThunk(
+  "ordonnances/addordonnance",
+  async (data, { dispatch, getState }) => {
+    console.log("data", data);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/MedicaNet/ordonnance",
+        data
+      );
+
     
-    toast.error(error.response.data.message);
+   if (response.data.ordonnance) {
+     
+    toast.success("ordonance added Successfully 😊", response.data);
+  
+      } else {
+        
+        console.log(response.data.error);
+      }
 
-    throw error;
+      return response.data.ordonnance;
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+      throw error;
+    }
   }
-});
+);
 
 export const getOrdonnaceByIdRDVAsync = createAsyncThunk(
   "ordonnances/getOrdonnaceByIdRDV",
@@ -79,7 +93,7 @@ const ordonanceSlice = createSlice({
         state.error = action.error.message;
       })
 
-      
+  
   },
 });
 

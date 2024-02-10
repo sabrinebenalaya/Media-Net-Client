@@ -4,6 +4,7 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCar
 import {  useNavigate } from "react-router-dom";
 
 function CardOfPatient({patientItem}) {
+  console.log("patientItem",patientItem)
     const navigate = useNavigate();
     const handleNavigate = (route) => {
       console.log(route)

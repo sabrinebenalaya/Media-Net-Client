@@ -3,6 +3,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+ export const sendConfirmationEmail = async ({ email, message, Objet }) => {
+  
+  try {
+    const response = await axios.post('http://localhost:4000/MedicaNet/sendConfirmationEmail', { email, message, Objet });
+    console.log('E-mail de confirmation envoyé avec succès !', response);
+  } catch (error) {
+    console.error('Erreur lors de l\'envoi de l\'e-mail de confirmation :', error);
+  }
+};
+
+
 export const addPatientAsync = createAsyncThunk(
   "patient/addPatient",
   async (data) => {
@@ -29,6 +41,23 @@ export const addPatientAsync = createAsyncThunk(
       );
 
       if (response.data.user) {
+        const message = `Cher(e) ${data.prenom},
+
+        Nous sommes ravis de vous informer que votre inscription sur la plateforme MediaNet a bien été enregistrée avec succès.
+        
+        Votre compte a été créé et vous pouvez désormais accéder à toutes les fonctionnalités offertes par notre plateforme. 
+        
+        N'hésitez pas à explorer nos services et à profiter de notre contenu varié.
+        
+        Si vous avez des questions ou avez besoin d'assistance, n'hésitez pas à nous contacter à l'adresse email support@medianet.com.
+        
+        Merci de faire partie de la communauté MediaNet !
+
+        Cordialement,
+        L'équipe MediaNet"`
+        
+       const Objet = "Confirmation d'inscription sur MediaNet"
+       await sendConfirmationEmail({ email: data.mailPatient, message: message, Objet: Objet });
         toast.success("Patient added Successfully 😊");
       } else {
         throw new Error(response.data.error);
@@ -134,6 +163,7 @@ const patientSlice = createSlice({
   name: "patient",
   initialState: {
     data: [],
+    patient: {},
     status: "loading", //  loading | succeeded | failed
     error: null,
   },
@@ -161,7 +191,7 @@ const patientSlice = createSlice({
       })
       .addCase(getPatientByIdAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data = action.payload;
+        state.patient = action.payload;
       })
       .addCase(editPatientAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -200,3 +230,4 @@ const patientSlice = createSlice({
 
 // Exportez le réducteur
 export default patientSlice.reducer;
+export const { } = patientSlice.actions;

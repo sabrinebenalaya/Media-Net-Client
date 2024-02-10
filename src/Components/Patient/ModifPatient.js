@@ -48,7 +48,7 @@ function ModifPatient() {
   const { id } = useParams();
 
 
-  const patient = useSelector((state) => state.patient.data);
+  const patient = useSelector((state) => state.patient.patient);
 
   useEffect(() => {
     dispatch(getPatientByIdAsync(id));

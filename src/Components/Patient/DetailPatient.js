@@ -4,6 +4,7 @@ import { useDispatch} from 'react-redux';
 import { getPatientByIdAsync } from '../../Redux/Patient/patientSlice';
 import { useParams } from 'react-router-dom';
 import Rdvs from '../Rdv/Rdvs';
+import ListMedicament from '../Medicament/ListMedicament';
 
 function DetailPatient() {
      
@@ -18,6 +19,7 @@ function DetailPatient() {
  
     
     <div style={{backgroundColor: '#eee'}} >
+    <ListMedicament/>
    
     <Rdvs status={"prochain"}/>
     

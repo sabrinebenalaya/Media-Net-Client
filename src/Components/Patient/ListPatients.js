@@ -13,7 +13,7 @@ function ListPatients() {
   useEffect(() => {
     dispatch(listPatientAsync());
   }, [dispatch]);
-  
+  console.log("listPatient", listPatient)
   return (
     <>
       {listPatient.length === 0 ? (

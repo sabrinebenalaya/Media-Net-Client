@@ -12,8 +12,8 @@ import {
 } from "mdb-react-ui-kit";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getPatientByIdAsync } from "../../Redux/Patient/patientSlice";
-import { addOrdonanceAsync } from "../../Redux/Ordonance/ordonanceSlice";
+import { getPatientByIdAsync, sendConfirmationEmail } from "../../Redux/Patient/patientSlice";
+import { addOrdonanceAsync, sendConfirmationEmai } from "../../Redux/Ordonance/ordonanceSlice";
 import { toast } from "react-toastify";
 import { TextField } from "@mui/material";
 
@@ -37,7 +37,7 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
   const dispatch = useDispatch();
 
   const rdv = useSelector((state) => state.rdv.dataRdv);
-  const patient = useSelector((state) => state.patient.data);
+  const patient = useSelector((state) => state.patient.patient);
 
   useEffect(() => {
     dispatch(getRdvByIdAsync(idRdv));
@@ -59,7 +59,6 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
       console.error("La date n'est pas valide");
     }
   }
-
   async function onSubmit() {
     try {
    
@@ -68,9 +67,31 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
    
       const idPatient = rdv.patient;
       const idRdv = rdv._id;
-      dispatch(addOrdonanceAsync({ idPatient, idRdv, medicaments }));
-      rdv.status="Termine"
-      handleCloseOrdonance(true)
+  
+     dispatch(addOrdonanceAsync({ idPatient, idRdv, medicaments, jourFormate}));
+     const listeMedicaments = medicaments.map(medicament => medicament.nom).join(', ');
+
+     const message = `Cher(e) ${patient.prenom},
+
+     Nous vous confirmons que votre ordonnance a bien été ajoutée à votre dossier médical. Veuillez trouver ci-dessous les détails de l'ordonnance :
+
+     Nom du médecin : ${rdv.title}
+     Date de prescription : ${jourFormate}
+     Médicaments prescrits : ${listeMedicaments}
+
+     Si vous avez des questions concernant votre ordonnance ou si vous avez besoin de plus d'informations, n'hésitez pas à nous contacter. 
+     
+     Notre équipe est là pour vous aider.
+     
+     Merci de votre confiance.
+     
+    Cordialement,
+    L'équipe médicale`;
+
+       await sendConfirmationEmail({ email: patient.mailPatient, message: message, Objet: "Confirmation d'ajout d'ordonnance" });
+
+    rdv.status="Termine"
+     handleCloseOrdonance(true)
 
      
 
@@ -79,10 +100,11 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
       toast.error("Vous devez ajouter au moins un médicament !");
       handleCloseOrdonance(true)
      }
-      
+ 
+
     } catch (error) {
      
-        console.error("Unexpected error:", error);
+        console.log("Unexpected error:", error);
      
     }
   }
@@ -144,7 +166,7 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
                                 fontWeight: "bold",
                               }}
                             >
-                              <MDBCardText>RDV :</MDBCardText>
+                              <MDBCardText>Nom du médecin :</MDBCardText>
                             </MDBCol>
                             <MDBCol sm="9">
                               <MDBCardText className="text-muted">
@@ -161,7 +183,7 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
                                   fontWeight: "bold",
                                 }}
                               >
-                                Date :
+                              Date de prescription :
                               </MDBCardText>
                             </MDBCol>
                             <MDBCol sm="9">
@@ -179,7 +201,7 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
                                   fontWeight: "bold",
                                 }}
                               >
-                                Médicament :
+                              Médicaments prescrits :
                               </MDBCardText>
                             </MDBCol>
                             <MDBCol sm="9">

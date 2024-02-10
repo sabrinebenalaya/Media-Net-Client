@@ -20,8 +20,8 @@ function Index() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const patient = useSelector((state) => state.patient.data);
-
+  const patient = useSelector((state) => state.patient.patient);
+console.log("pat", patient)
   useEffect(() => {
     dispatch(getPatientByIdAsync(id));
   }, [dispatch, id]);

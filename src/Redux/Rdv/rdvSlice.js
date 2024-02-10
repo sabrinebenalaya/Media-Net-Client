@@ -33,11 +33,9 @@ export const listrdvAsync = createAsyncThunk(
         `http://localhost:4000/MedicaNet/rdv/${idPatient}`
       );
 
-      if (response.data) {
-        toast.success("list des rdvs  😊");
-      } else {
+      if (!response.data) {
         throw new Error(response.data.error);
-      }
+      } 
 
       return response.data;
     } catch (error) {
@@ -91,9 +89,7 @@ export const listProchainRdvAsync = createAsyncThunk(
         `http://localhost:4000/MedicaNet/rdv/${id}/${status}`
       );
 
-      if (response.data) {
-        toast.success("list des rdvs  😊");
-      } else {
+      if (!response.data) {
         throw new Error(response.data.error);
       }
 
@@ -115,9 +111,7 @@ export const listPrecedentRdvAsync = createAsyncThunk(
         `http://localhost:4000/MedicaNet/rdv/${id}/${status}`
       );
 
-      if (response.data) {
-        toast.success("list des rdvs  😊");
-      } else {
+      if (!response.data) {
         throw new Error(response.data.error);
       }
 
