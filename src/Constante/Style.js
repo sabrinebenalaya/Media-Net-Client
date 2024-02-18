@@ -41,3 +41,7 @@ export const rdvstatusStyle={
   alignItems: 'center', 
   justifyContent: 'center'
 }
+export const customBtn ={
+  width: "auto !important",
+  height: "auto !important"
+}

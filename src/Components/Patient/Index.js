@@ -57,8 +57,8 @@ console.log("pat", patient)
                     style={{ width: "150px", height: "150px" }}
                     fluid
                   />
-                  <p className="text-muted mb-1">
-                    {patient.prenom} {patient.nom}
+                  <p className="text-muted mb-1" onClick={() =>handleNavigate(`/index/${patient._id}`)}>
+                  {patient.prenom} {patient.nom}
                   </p>
                   <p className="text-muted mb-1">{patient.mailPatient}</p>
                   <p className="text-muted mb-1">{patient.numeroTelephone}</p>
@@ -68,18 +68,14 @@ console.log("pat", patient)
                       color="danger"
                       className="ms-1"
                       onClick={handleDelete}
-                      style={{
-                        transform: "none",
-                        transition: "none",
-                        fontSize: "initial",
-                      }}
+                    
                     >
                       Suprimer
                     </MDBBtn>
                   </div>
                   <div className="d-flex justify-content-center mb-2">
                     <MDBBtn outline onClick={() =>handleNavigate(`/index/${patient._id}/rdvs`)}>RDV</MDBBtn>
-                    <MDBBtn outline className="ms-1">
+                    <MDBBtn outline     onClick={() =>handleNavigate(`/index/${patient._id}/medicaments`)}>
                       Medicament
                     </MDBBtn>
                   </div>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import {  useParams } from "react-router-dom";
 import {
   MDBCardBody,
   MDBCard,
@@ -22,7 +22,6 @@ function ListMedicament() {
 
   }, [dispatch, id]);
 
-  console.log("list", listMedicament)
   return (
     <section style={{ width: "83vW" }}>
     <div className="container  h-100">

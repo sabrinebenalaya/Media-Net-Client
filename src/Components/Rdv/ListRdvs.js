@@ -21,7 +21,7 @@ import RdvItem from "./RdvItem";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
-
+import moment from 'moment';
 import DatePicker from "react-datepicker";
 
 const schema = yup.object().shape({
@@ -71,7 +71,16 @@ function ListRdvs() {
   async function onSubmit({ title, date, note }) {
     try {
       const patient = id;
-      const status = "attente";
+      const dateActuelle = moment();
+      const differenceHeures = moment(date).diff(dateActuelle, "hours");
+     
+      const status =
+        differenceHeures <= 24
+          ? "avant24"
+          : differenceHeures <= 72
+          ? "avant72"
+          : "attente";
+    
       dispatch(addRdvAsync({ title, date, note, patient, status }));
       handleClose();
       navigate(`/index/${id}/rdvs`);

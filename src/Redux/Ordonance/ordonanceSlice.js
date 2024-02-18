@@ -2,15 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import patientSlice, { getPatientByIdAsync } from "../Patient/patientSlice";
-
-
-
 
 export const addOrdonanceAsync = createAsyncThunk(
   "ordonnances/addordonnance",
-  async (data, { dispatch, getState }) => {
-    console.log("data", data);
+  async (data) => {
+  
 
     try {
       const response = await axios.post(

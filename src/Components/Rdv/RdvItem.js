@@ -66,44 +66,44 @@ function RdvItem({ rdvItem, action }) {
   let statusStyle = {};
   if (rdvItem.status === "attente") {
     statusStyle = {
-      backgroundColor: "orange",
+      backgroundColor: "#ADD8E6",
       width: `${rdvItem.status.length * 10}px`,
     };
   }
   if (rdvItem.status === "avant72") {
     statusStyle = {
-      backgroundColor: "yallow",
+      backgroundColor: "#90EE90",
       width: `${rdvItem.status.length * 10}px`,
     };
   }
   if (rdvItem.status === "avant24") {
     statusStyle = {
-      backgroundColor: "blue",
+      backgroundColor: "#FFFF00",
       width: `${rdvItem.status.length * 10}px`,
     };
   }
   if (rdvItem.status === "fait") {
     statusStyle = {
-      backgroundColor: "green",
+      backgroundColor: "#9370DB",
       width: `${rdvItem.status.length * 10}px`,
     };
   }
   if (rdvItem.status === "passer") {
     statusStyle = {
-      backgroundColor: "red",
+      backgroundColor: "#FF0000",
       width: `${rdvItem.status.length * 10}px`,
     };
   }
   if (rdvItem.status === "Termine") {
     statusStyle = {
-      backgroundColor: "pink",
+      backgroundColor: "#808080",
       
       width: `${rdvItem.status.length * 10}px`,
     };
   }
   const handleDeleteIcon = () => {
     const confirmDelete = window.confirm(
-      "Êtes-vous sûr de vouloir supprimer ce patient ?"
+      "Êtes-vous sûr de vouloir supprimer ce RDV ?"
     );
 
     if (confirmDelete) {
@@ -190,14 +190,18 @@ function RdvItem({ rdvItem, action }) {
           </MDBCol>
           <MDBCol sm="2">
             <MDBCardText className="text-muted">
+            {rdvItem.status !== "fait" && rdvItem.status !== "Termine" && (
               <BiEditAlt
-                style={{ color: "green", fontSize: "2rem", marginRight: "5px" }}
-                onClick={handleOpen}
-              />
+              style={{ color: "green", fontSize: "2rem", marginRight: "5px" }}
+              onClick={handleOpen}
+            />
+            )}
+            { rdvItem.status !== "Termine" && (
+              
               <BsFillTrashFill
                 style={{ color: "red", fontSize: "2rem" }}
                 onClick={handleDeleteIcon}
-              />
+              />)}
               {rdvItem.status === "fait" && (
                 <BiReceipt
                   style={{ color: "blue", fontSize: "2rem", marginLeft: "5px" }}

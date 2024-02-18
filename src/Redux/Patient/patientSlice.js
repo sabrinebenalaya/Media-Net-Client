@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
  export const sendConfirmationEmail = async ({ email, message, Objet }) => {
   
   try {
-    const response = await axios.post('http://localhost:4000/MedicaNet/sendConfirmationEmail', { email, message, Objet });
-    console.log('E-mail de confirmation envoyé avec succès !', response);
+    await axios.post('http://localhost:4000/MedicaNet/sendConfirmationEmail', { email, message, Objet });
+  
   } catch (error) {
     console.error('Erreur lors de l\'envoi de l\'e-mail de confirmation :', error);
   }
@@ -56,10 +56,11 @@ export const addPatientAsync = createAsyncThunk(
         Cordialement,
         L'équipe MediaNet"`
         
-       const Objet = "Confirmation d'inscription sur MediaNet"
-       await sendConfirmationEmail({ email: data.mailPatient, message: message, Objet: Objet });
+      
+       await sendConfirmationEmail({ email: data.mailPatient, message: message, Objet: "Confirmation d'inscription sur MediaNet" });
         toast.success("Patient added Successfully 😊");
       } else {
+        
         throw new Error(response.data.error);
       }
       return data;
@@ -230,4 +231,3 @@ const patientSlice = createSlice({
 
 // Exportez le réducteur
 export default patientSlice.reducer;
-export const { } = patientSlice.actions;

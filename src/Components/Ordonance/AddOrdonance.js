@@ -12,8 +12,8 @@ import {
 } from "mdb-react-ui-kit";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getPatientByIdAsync, sendConfirmationEmail } from "../../Redux/Patient/patientSlice";
-import { addOrdonanceAsync, sendConfirmationEmai } from "../../Redux/Ordonance/ordonanceSlice";
+import { getPatientByIdAsync } from "../../Redux/Patient/patientSlice";
+import { addOrdonanceAsync  } from "../../Redux/Ordonance/ordonanceSlice";
 import { toast } from "react-toastify";
 import { TextField } from "@mui/material";
 
@@ -69,28 +69,8 @@ function AddOrdonance({ idRdv,handleCloseOrdonance }) {
       const idRdv = rdv._id;
   
      dispatch(addOrdonanceAsync({ idPatient, idRdv, medicaments, jourFormate}));
-     const listeMedicaments = medicaments.map(medicament => medicament.nom).join(', ');
-
-     const message = `Cher(e) ${patient.prenom},
-
-     Nous vous confirmons que votre ordonnance a bien été ajoutée à votre dossier médical. Veuillez trouver ci-dessous les détails de l'ordonnance :
-
-     Nom du médecin : ${rdv.title}
-     Date de prescription : ${jourFormate}
-     Médicaments prescrits : ${listeMedicaments}
-
-     Si vous avez des questions concernant votre ordonnance ou si vous avez besoin de plus d'informations, n'hésitez pas à nous contacter. 
-     
-     Notre équipe est là pour vous aider.
-     
-     Merci de votre confiance.
-     
-    Cordialement,
-    L'équipe médicale`;
-
-       await sendConfirmationEmail({ email: patient.mailPatient, message: message, Objet: "Confirmation d'ajout d'ordonnance" });
-
-    rdv.status="Termine"
+   
+       
      handleCloseOrdonance(true)
 
      

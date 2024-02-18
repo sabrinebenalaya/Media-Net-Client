@@ -1,7 +1,5 @@
 import React from 'react'
 import {
-    MDBCardBody,
-    MDBCard,
     MDBCol,
     MDBRow,
     MDBCardText,

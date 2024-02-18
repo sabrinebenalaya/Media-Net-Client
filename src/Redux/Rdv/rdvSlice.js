@@ -152,7 +152,6 @@ const rdvSlice = createSlice({
     data: [],
     dataprev:[],
     dataRdv:{},
-    status: "loading", //  loading | succeeded | failed
     error: null,
   },
   reducers: {},
